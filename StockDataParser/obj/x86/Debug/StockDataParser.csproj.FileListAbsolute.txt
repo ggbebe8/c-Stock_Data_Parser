@@ -1,0 +1,10 @@
+D:\gitSrc\c-Stock_Data_Parser\StockDataParser\StockDataParser\bin\x86\Debug\StockDataParser.exe.config
+D:\gitSrc\c-Stock_Data_Parser\StockDataParser\StockDataParser\bin\x86\Debug\StockDataParser.exe
+D:\gitSrc\c-Stock_Data_Parser\StockDataParser\StockDataParser\bin\x86\Debug\StockDataParser.pdb
+D:\gitSrc\c-Stock_Data_Parser\StockDataParser\StockDataParser\obj\x86\Debug\StockDataParser.csprojAssemblyReference.cache
+D:\gitSrc\c-Stock_Data_Parser\StockDataParser\StockDataParser\obj\x86\Debug\StockDataParser.ParserMain.resources
+D:\gitSrc\c-Stock_Data_Parser\StockDataParser\StockDataParser\obj\x86\Debug\StockDataParser.Properties.Resources.resources
+D:\gitSrc\c-Stock_Data_Parser\StockDataParser\StockDataParser\obj\x86\Debug\StockDataParser.csproj.GenerateResource.cache
+D:\gitSrc\c-Stock_Data_Parser\StockDataParser\StockDataParser\obj\x86\Debug\StockDataParser.csproj.CoreCompileInputs.cache
+D:\gitSrc\c-Stock_Data_Parser\StockDataParser\StockDataParser\obj\x86\Debug\StockDataParser.exe
+D:\gitSrc\c-Stock_Data_Parser\StockDataParser\StockDataParser\obj\x86\Debug\StockDataParser.pdb

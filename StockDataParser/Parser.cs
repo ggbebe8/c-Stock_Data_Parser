@@ -9,8 +9,19 @@ namespace StockDataParser
 {
     class Parser
     {
+        private static Parser _instance;
+        public static Parser Instance
+        {
+            get
+            {
+                _instance = _instance ?? new Parser();
+                return _instance;
+            }
+        }
+
+
         /// MainParser ///
-        public static Dictionary<string, string> GetInfo(string p_StockCode)        //parsing
+        public Dictionary<string, string> GetInfo(string p_StockCode)        //parsing
         {
             Dictionary<string, string> dicParsing = new Dictionary<string, string>();
             String strURL = "http://finance.naver.com/item/sise_day.nhn?code=" + p_StockCode;
@@ -44,9 +55,9 @@ namespace StockDataParser
         }
 
         // GetDetailInfo
-        public static Variables.DetailInfo[] GetDetailInfo(string p_StockCode, int p_Date)
+        public List<Variables.DetailInfo> GetDetailInfo(string p_StockCode, int p_Date)
         {
-            Variables.DetailInfo[] detailInfo = new Variables.DetailInfo[p_Date];
+            List<Variables.DetailInfo> detailInfo = new List<Variables.DetailInfo>();
 
             /* Parsing EX
             xxxx:functionmouseOver(obj){:obj.style.backgroundColor="#f6f4e5";:}:
@@ -69,7 +80,7 @@ namespace StockDataParser
             string tempStr = "";
             string[] SplitStr = new string[] { };
 
-
+            Variables.DetailInfo vd = new Variables.DetailInfo();
 
             int x = 0;
             for (int i = 0; i < (p_Date / 10); i++)
@@ -79,16 +90,8 @@ namespace StockDataParser
                 SplitStr = tempStr.Split(':');
 
                 if (tempStr == "False")
-                {
-                    detailInfo[0].date = "0000.00.00";
-                    detailInfo[0].price = -1;
-                    detailInfo[0].volumn = -1;
-                    detailInfo[0].highPrice = -1;
-                    detailInfo[0].lowPrice = -1;
-                    detailInfo[0].startPrice = -1;
-
                     return detailInfo;
-                }
+
                 if (x < p_Date)
                 {
                     for (int j = 15; j < 85; j += 7)
@@ -96,31 +99,34 @@ namespace StockDataParser
                         // 혹여나 60일치가 모두 파싱이 안된 경우
                         if (!SplitStr[j].Contains("."))
                         {
-                            detailInfo[x].date = "0000.00.00";
-                            detailInfo[x].price = -1;
-                            detailInfo[x].volumn = -1;
-                            detailInfo[x].highPrice = -1;
-                            detailInfo[x].lowPrice = -1;
-                            detailInfo[x].startPrice = -1;
+                            vd.date = "0000.00.00";
+                            vd.price = -1;
+                            vd.volumn = -1;
+                            vd.highPrice = -1;
+                            vd.lowPrice = -1;
+                            vd.startPrice = -1;
+                            detailInfo.Add(vd);
                             return detailInfo;
                         }
                         try
                         {
-                            detailInfo[x].date = SplitStr[j];
-                            detailInfo[x].price = Convert.ToInt32(SplitStr[j + 1].Replace(",", ""));
-                            detailInfo[x].volumn = Convert.ToInt32(SplitStr[j + 6].Replace(",", ""));
-                            detailInfo[x].highPrice = Convert.ToInt32(SplitStr[j + 4].Replace(",", ""));
-                            detailInfo[x].lowPrice = Convert.ToInt32(SplitStr[j + 5].Replace(",", ""));
-                            detailInfo[x].startPrice = Convert.ToInt32(SplitStr[j + 3].Replace(",", ""));
+                            vd.date = SplitStr[j];
+                            vd.price = Convert.ToInt32(SplitStr[j + 1].Replace(",", ""));
+                            vd.volumn = Convert.ToInt32(SplitStr[j + 6].Replace(",", ""));
+                            vd.highPrice = Convert.ToInt32(SplitStr[j + 4].Replace(",", ""));
+                            vd.lowPrice = Convert.ToInt32(SplitStr[j + 5].Replace(",", ""));
+                            vd.startPrice = Convert.ToInt32(SplitStr[j + 3].Replace(",", ""));
+                            detailInfo.Add(vd);
                         }
                         catch
                         {
-                            detailInfo[x].date = "0000.00.00";
-                            detailInfo[x].price = -1;
-                            detailInfo[x].volumn = -1;
-                            detailInfo[x].highPrice = -1;
-                            detailInfo[x].lowPrice = -1;
-                            detailInfo[x].startPrice = -1;
+                            vd.date = "0000.00.00";
+                            vd.price = -1;
+                            vd.volumn = -1;
+                            vd.highPrice = -1;
+                            vd.lowPrice = -1;
+                            vd.startPrice = -1;
+                            detailInfo.Add(vd);
                             return detailInfo;
                         }
                         x++;
@@ -133,7 +139,7 @@ namespace StockDataParser
         // Parsing 
         // p_urlInfo : "url|*|StartValue|&|LastValue..."
         // return : value1|,|value2|,|....
-        public static List<string> GetHtmlInfo(string p_urlInfo)
+        public List<string> GetHtmlInfo(string p_urlInfo)
         {
             p_urlInfo = p_urlInfo.Replace("|*|", "|&|");
 
@@ -217,7 +223,7 @@ namespace StockDataParser
         }
 
         // GetHtml //
-        private static String GetHtmlString(String url)
+        private String GetHtmlString(String url)
         {
             try
             {
